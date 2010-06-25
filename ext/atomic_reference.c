@@ -1,7 +1,7 @@
 #include <ruby.h>
 
 static void ir_mark(void *value) {
-  rb_mark((VALUE)value);
+  rb_gc_mark((VALUE)value);
 }
 
 static VALUE ir_alloc(VALUE klass) {
@@ -45,7 +45,7 @@ void Init_atomic_reference() {
   VALUE cInternalReference;
 
   cAtomic = rb_const_get(rb_cObject, rb_intern("Atomic"));
-  rb_define_class_under(cAtomic, "InternalReference", rb_cObject);
+  cInternalReference = rb_define_class_under(cAtomic, "InternalReference", rb_cObject);
   rb_define_alloc_func(cAtomic, ir_alloc);
 
   rb_define_method(cInternalReference, "initialize", ir_initialize, 1);
