@@ -1,3 +1,5 @@
+$LOAD_PATH.unshift("../ext/")
+
 require 'thread'
 
 class Atomic
@@ -44,7 +46,8 @@ end
 
 begin
   require 'atomic_reference'
-rescue LoadError
+rescue LoadError =>  ex
+  puts "Using portable #{ex}"
   # Portable/generic (but not very memory or scheduling-efficient) fallback
   class Atomic::InternalReference
     def initialize(value)
